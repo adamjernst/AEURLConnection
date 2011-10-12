@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C4C186871445FF9C003DBCC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186861445FF9C003DBCC0 /* UIKit.framework */; };
+		C4C186891445FF9C003DBCC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186881445FF9C003DBCC0 /* Foundation.framework */; };
+		C4C1868B1445FF9C003DBCC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C1868A1445FF9C003DBCC0 /* CoreGraphics.framework */; };
+		C4C186911445FF9C003DBCC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C4C1868F1445FF9C003DBCC0 /* InfoPlist.strings */; };
+		C4C186931445FF9C003DBCC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186921445FF9C003DBCC0 /* main.m */; };
+		C4C186971445FF9C003DBCC0 /* AEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186961445FF9C003DBCC0 /* AEAppDelegate.m */; };
+		C4C1869A1445FF9C003DBCC0 /* AEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186991445FF9C003DBCC0 /* AEViewController.m */; };
+		C4C1869D1445FF9C003DBCC0 /* AEViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C1869B1445FF9C003DBCC0 /* AEViewController.xib */; };
+		C4C186A51445FF9C003DBCC0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186A41445FF9C003DBCC0 /* SenTestingKit.framework */; };
+		C4C186A61445FF9C003DBCC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186861445FF9C003DBCC0 /* UIKit.framework */; };
+		C4C186A71445FF9C003DBCC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186881445FF9C003DBCC0 /* Foundation.framework */; };
+		C4C186AF1445FF9C003DBCC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C4C186AD1445FF9C003DBCC0 /* InfoPlist.strings */; };
+		C4C186B21445FF9C003DBCC0 /* AEURLExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186B11445FF9C003DBCC0 /* AEURLExampleTests.m */; };
+		C4C186C31445FFD7003DBCC0 /* AEURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */; };
+		C4C186C41445FFD7003DBCC0 /* AEURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */; };
+		C4C186CB144615CF003DBCC0 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186CA144615CF003DBCC0 /* JSONKit.m */; };
+		C4C186CC144615CF003DBCC0 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186CA144615CF003DBCC0 /* JSONKit.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C4C186A81445FF9C003DBCC0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4C186791445FF9C003DBCC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4C186811445FF9C003DBCC0;
+			remoteInfo = AEURLExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C4C186821445FF9C003DBCC0 /* AEURLExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEURLExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4C186861445FF9C003DBCC0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C4C186881445FF9C003DBCC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C4C1868A1445FF9C003DBCC0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C4C1868E1445FF9C003DBCC0 /* AEURLExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AEURLExample-Info.plist"; sourceTree = "<group>"; };
+		C4C186901445FF9C003DBCC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C4C186921445FF9C003DBCC0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C4C186941445FF9C003DBCC0 /* AEURLExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AEURLExample-Prefix.pch"; sourceTree = "<group>"; };
+		C4C186951445FF9C003DBCC0 /* AEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEAppDelegate.h; sourceTree = "<group>"; };
+		C4C186961445FF9C003DBCC0 /* AEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AEAppDelegate.m; sourceTree = "<group>"; };
+		C4C186981445FF9C003DBCC0 /* AEViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEViewController.h; sourceTree = "<group>"; };
+		C4C186991445FF9C003DBCC0 /* AEViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AEViewController.m; sourceTree = "<group>"; };
+		C4C1869C1445FF9C003DBCC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AEViewController.xib; sourceTree = "<group>"; };
+		C4C186A31445FF9C003DBCC0 /* AEURLExampleTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AEURLExampleTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4C186A41445FF9C003DBCC0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		C4C186AC1445FF9C003DBCC0 /* AEURLExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AEURLExampleTests-Info.plist"; sourceTree = "<group>"; };
+		C4C186AE1445FF9C003DBCC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C4C186B01445FF9C003DBCC0 /* AEURLExampleTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEURLExampleTests.h; sourceTree = "<group>"; };
+		C4C186B11445FF9C003DBCC0 /* AEURLExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AEURLExampleTests.m; sourceTree = "<group>"; };
+		C4C186C11445FFD7003DBCC0 /* AEURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEURLConnection.h; sourceTree = "<group>"; };
+		C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEURLConnection.m; sourceTree = "<group>"; };
+		C4C186C9144615CF003DBCC0 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		C4C186CA144615CF003DBCC0 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C4C1867F1445FF9C003DBCC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C186871445FF9C003DBCC0 /* UIKit.framework in Frameworks */,
+				C4C186891445FF9C003DBCC0 /* Foundation.framework in Frameworks */,
+				C4C1868B1445FF9C003DBCC0 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4C1869F1445FF9C003DBCC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C186A51445FF9C003DBCC0 /* SenTestingKit.framework in Frameworks */,
+				C4C186A61445FF9C003DBCC0 /* UIKit.framework in Frameworks */,
+				C4C186A71445FF9C003DBCC0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C4C186771445FF9C003DBCC0 = {
+			isa = PBXGroup;
+			children = (
+				C4C186BF1445FFCB003DBCC0 /* AEURLConnection */,
+				C4C1868C1445FF9C003DBCC0 /* AEURLExample */,
+				C4C186AA1445FF9C003DBCC0 /* AEURLExampleTests */,
+				C4C186851445FF9C003DBCC0 /* Frameworks */,
+				C4C186831445FF9C003DBCC0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C4C186831445FF9C003DBCC0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C4C186821445FF9C003DBCC0 /* AEURLExample.app */,
+				C4C186A31445FF9C003DBCC0 /* AEURLExampleTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C4C186851445FF9C003DBCC0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C4C186861445FF9C003DBCC0 /* UIKit.framework */,
+				C4C186881445FF9C003DBCC0 /* Foundation.framework */,
+				C4C1868A1445FF9C003DBCC0 /* CoreGraphics.framework */,
+				C4C186A41445FF9C003DBCC0 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C4C1868C1445FF9C003DBCC0 /* AEURLExample */ = {
+			isa = PBXGroup;
+			children = (
+				C4C186C9144615CF003DBCC0 /* JSONKit.h */,
+				C4C186CA144615CF003DBCC0 /* JSONKit.m */,
+				C4C186951445FF9C003DBCC0 /* AEAppDelegate.h */,
+				C4C186961445FF9C003DBCC0 /* AEAppDelegate.m */,
+				C4C186981445FF9C003DBCC0 /* AEViewController.h */,
+				C4C186991445FF9C003DBCC0 /* AEViewController.m */,
+				C4C1869B1445FF9C003DBCC0 /* AEViewController.xib */,
+				C4C1868D1445FF9C003DBCC0 /* Supporting Files */,
+			);
+			path = AEURLExample;
+			sourceTree = "<group>";
+		};
+		C4C1868D1445FF9C003DBCC0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C4C1868E1445FF9C003DBCC0 /* AEURLExample-Info.plist */,
+				C4C1868F1445FF9C003DBCC0 /* InfoPlist.strings */,
+				C4C186921445FF9C003DBCC0 /* main.m */,
+				C4C186941445FF9C003DBCC0 /* AEURLExample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4C186AA1445FF9C003DBCC0 /* AEURLExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				C4C186B01445FF9C003DBCC0 /* AEURLExampleTests.h */,
+				C4C186B11445FF9C003DBCC0 /* AEURLExampleTests.m */,
+				C4C186AB1445FF9C003DBCC0 /* Supporting Files */,
+			);
+			path = AEURLExampleTests;
+			sourceTree = "<group>";
+		};
+		C4C186AB1445FF9C003DBCC0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C4C186AC1445FF9C003DBCC0 /* AEURLExampleTests-Info.plist */,
+				C4C186AD1445FF9C003DBCC0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4C186BF1445FFCB003DBCC0 /* AEURLConnection */ = {
+			isa = PBXGroup;
+			children = (
+				C4C186C11445FFD7003DBCC0 /* AEURLConnection.h */,
+				C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */,
+			);
+			name = AEURLConnection;
+			path = ../AEURLConnection;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C4C186811445FF9C003DBCC0 /* AEURLExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4C186B51445FF9C003DBCC0 /* Build configuration list for PBXNativeTarget "AEURLExample" */;
+			buildPhases = (
+				C4C1867E1445FF9C003DBCC0 /* Sources */,
+				C4C1867F1445FF9C003DBCC0 /* Frameworks */,
+				C4C186801445FF9C003DBCC0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AEURLExample;
+			productName = AEURLExample;
+			productReference = C4C186821445FF9C003DBCC0 /* AEURLExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C4C186A21445FF9C003DBCC0 /* AEURLExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4C186B81445FF9C003DBCC0 /* Build configuration list for PBXNativeTarget "AEURLExampleTests" */;
+			buildPhases = (
+				C4C1869E1445FF9C003DBCC0 /* Sources */,
+				C4C1869F1445FF9C003DBCC0 /* Frameworks */,
+				C4C186A01445FF9C003DBCC0 /* Resources */,
+				C4C186A11445FF9C003DBCC0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4C186A91445FF9C003DBCC0 /* PBXTargetDependency */,
+			);
+			name = AEURLExampleTests;
+			productName = AEURLExampleTests;
+			productReference = C4C186A31445FF9C003DBCC0 /* AEURLExampleTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C4C186791445FF9C003DBCC0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = cosmicsoft;
+			};
+			buildConfigurationList = C4C1867C1445FF9C003DBCC0 /* Build configuration list for PBXProject "AEURLExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C4C186771445FF9C003DBCC0;
+			productRefGroup = C4C186831445FF9C003DBCC0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C4C186811445FF9C003DBCC0 /* AEURLExample */,
+				C4C186A21445FF9C003DBCC0 /* AEURLExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C4C186801445FF9C003DBCC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C186911445FF9C003DBCC0 /* InfoPlist.strings in Resources */,
+				C4C1869D1445FF9C003DBCC0 /* AEViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4C186A01445FF9C003DBCC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C186AF1445FF9C003DBCC0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C4C186A11445FF9C003DBCC0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C4C1867E1445FF9C003DBCC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C186931445FF9C003DBCC0 /* main.m in Sources */,
+				C4C186971445FF9C003DBCC0 /* AEAppDelegate.m in Sources */,
+				C4C1869A1445FF9C003DBCC0 /* AEViewController.m in Sources */,
+				C4C186C31445FFD7003DBCC0 /* AEURLConnection.m in Sources */,
+				C4C186CB144615CF003DBCC0 /* JSONKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4C1869E1445FF9C003DBCC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4C186B21445FF9C003DBCC0 /* AEURLExampleTests.m in Sources */,
+				C4C186C41445FFD7003DBCC0 /* AEURLConnection.m in Sources */,
+				C4C186CC144615CF003DBCC0 /* JSONKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C4C186A91445FF9C003DBCC0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C186811445FF9C003DBCC0 /* AEURLExample */;
+			targetProxy = C4C186A81445FF9C003DBCC0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C4C1868F1445FF9C003DBCC0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4C186901445FF9C003DBCC0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C4C1869B1445FF9C003DBCC0 /* AEViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4C1869C1445FF9C003DBCC0 /* en */,
+			);
+			name = AEViewController.xib;
+			sourceTree = "<group>";
+		};
+		C4C186AD1445FF9C003DBCC0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4C186AE1445FF9C003DBCC0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C4C186B31445FF9C003DBCC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C4C186B41445FF9C003DBCC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C4C186B61445FF9C003DBCC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AEURLExample/AEURLExample-Prefix.pch";
+				INFOPLIST_FILE = "AEURLExample/AEURLExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C4C186B71445FF9C003DBCC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AEURLExample/AEURLExample-Prefix.pch";
+				INFOPLIST_FILE = "AEURLExample/AEURLExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C4C186B91445FF9C003DBCC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AEURLExample.app/AEURLExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AEURLExample/AEURLExample-Prefix.pch";
+				INFOPLIST_FILE = "AEURLExampleTests/AEURLExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		C4C186BA1445FF9C003DBCC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AEURLExample.app/AEURLExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AEURLExample/AEURLExample-Prefix.pch";
+				INFOPLIST_FILE = "AEURLExampleTests/AEURLExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C4C1867C1445FF9C003DBCC0 /* Build configuration list for PBXProject "AEURLExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4C186B31445FF9C003DBCC0 /* Debug */,
+				C4C186B41445FF9C003DBCC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4C186B51445FF9C003DBCC0 /* Build configuration list for PBXNativeTarget "AEURLExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4C186B61445FF9C003DBCC0 /* Debug */,
+				C4C186B71445FF9C003DBCC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4C186B81445FF9C003DBCC0 /* Build configuration list for PBXNativeTarget "AEURLExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4C186B91445FF9C003DBCC0 /* Debug */,
+				C4C186BA1445FF9C003DBCC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C4C186791445FF9C003DBCC0 /* Project object */;
+}
