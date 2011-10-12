@@ -42,7 +42,7 @@
               completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler {
 	AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue completionHandler:handler];
 	[[AEURLConnectionManager sharedManager] startRequest:req];
-	[request release];
+	[req release];
 }
 
 @end
