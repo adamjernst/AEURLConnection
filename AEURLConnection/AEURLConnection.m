@@ -12,14 +12,14 @@
 @interface AEURLConnectionRequest : NSObject
 - (id)initWithRequest:(NSURLRequest *)request 
 				queue:(NSOperationQueue *)queue
-	  processingBlock:(AEURLConnectionProcessingBlock)processingBlock
+	  processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
 	completionHandler:handler;
 @property (nonatomic, retain, readonly) NSURLRequest *request;
 @property (nonatomic, retain, readonly) NSOperationQueue *queue;
 
 // processingBlock released in the background, so don't capture a 
-// UIViewController there.
-@property (nonatomic, copy, readonly) AEURLConnectionProcessingBlock processingBlock;
+// UIViewController or you'll be vulnerable to the Deallocation Problem.
+@property (nonatomic, copy, readonly) AEURLConnectionResponseProcessingBlock processingBlock;
 
 // handler is readwrite so that we can nil it out after calling it,
 // to ensure it is released on |queue| and not on the network thread.
@@ -52,7 +52,7 @@
 
 + (void)sendAsynchronousRequest:(NSURLRequest *)request 
 						  queue:(NSOperationQueue *)queue
-				processingBlock:(AEURLConnectionProcessingBlock)processingBlock
+				processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
 			  completionHandler:(void (^)(NSURLResponse *, id, NSError *))handler {
 	AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue processingBlock:processingBlock completionHandler:handler];
 	[[AEURLConnectionManager sharedManager] startRequest:req];
@@ -241,7 +241,7 @@ static AEURLConnectionManager *sharedManager = nil;
 		});
 		
 		dispatch_async(processing_queue, ^{
-			AEURLConnectionProcessingBlock processor = [req processingBlock];
+			AEURLConnectionResponseProcessingBlock processor = [req processingBlock];
 			NSError *error = nil;
 			id processedData = processor([req response], [req data], &error);
 			if (processedData) {
@@ -289,7 +289,7 @@ static AEURLConnectionManager *sharedManager = nil;
 
 - (id)initWithRequest:(NSURLRequest *)request
 				queue:(NSOperationQueue *)queue 
-	  processingBlock:(AEURLConnectionProcessingBlock)processingBlock
+	  processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
 	completionHandler:(id)handler {
 	self = [super init];
 	if (self) {

@@ -10,19 +10,26 @@
 
 @implementation AEJSONProcessingBlock
 
-static AEURLConnectionProcessingBlock JSONProcessingBlock = nil;
+static AEURLConnectionResponseProcessingBlock JSONProcessingBlock = nil;
 
-+ (AEURLConnectionProcessingBlock)JSONProcessingBlock {
++ (AEURLConnectionResponseProcessingBlock)JSONResponseProcessingBlock {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		JSONProcessingBlock = [[self JSONProcessingBlockWithOptions:JKParseOptionNone] retain];
+		JSONProcessingBlock = [[self JSONResponseProcessingBlockWithOptions:JKParseOptionNone] retain];
 	});
 	return JSONProcessingBlock;
 }
 
-+ (AEURLConnectionProcessingBlock)JSONProcessingBlockWithOptions:(JKParseOptionFlags)options {
++ (AEURLConnectionResponseProcessingBlock)JSONResponseProcessingBlockWithOptions:(JKParseOptionFlags)options {
 	return [[(id)^(NSURLResponse *response, NSData *data, NSError **error){
 		return [data objectFromJSONDataWithParseOptions:options error:error];
+	} copy] autorelease];
+}
+
++ (AEURLConnectionParameterProcessingBlock)JSONParameterProcessingBlock {
+	return [[^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
+		[targetRequest setHTTPBody:[parameters JSONData]];
+		[targetRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
 	} copy] autorelease];
 }
 

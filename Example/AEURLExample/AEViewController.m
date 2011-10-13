@@ -32,7 +32,7 @@
 		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://graph.facebook.com/137947732957611"]];
 		[AEURLConnection sendAsynchronousRequest:request
 										   queue:[NSOperationQueue mainQueue]
-								 processingBlock:[AEJSONProcessingBlock JSONProcessingBlock]
+								 processingBlock:[AEJSONProcessingBlock JSONResponseProcessingBlock]
 							   completionHandler:^(NSURLResponse *response, id data, NSError *error) {
 								   [spinner stopAnimating];
 								   

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef id (^AEURLConnectionProcessingBlock)(NSURLResponse *, NSData *, NSError **);
+typedef id (^AEURLConnectionResponseProcessingBlock)(NSURLResponse *, NSData *, NSError **);
 
 @interface AEURLConnection : NSObject
 
@@ -27,7 +27,7 @@ typedef id (^AEURLConnectionProcessingBlock)(NSURLResponse *, NSData *, NSError 
 // Check out AEJSONProcessingBlock for an example usage.
 + (void)sendAsynchronousRequest:(NSURLRequest *)request 
 						  queue:(NSOperationQueue *)queue
-				processingBlock:(AEURLConnectionProcessingBlock)processingBlock
+				processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
 			  completionHandler:(void (^)(NSURLResponse *, id, NSError *))handler;
 
 @end
