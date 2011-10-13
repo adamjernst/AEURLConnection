@@ -12,13 +12,18 @@
 @interface AEURLConnectionRequest : NSObject
 - (id)initWithRequest:(NSURLRequest *)request 
 				queue:(NSOperationQueue *)queue
+	  processingBlock:(AEURLConnectionProcessingBlock)processingBlock
 	completionHandler:handler;
 @property (nonatomic, retain, readonly) NSURLRequest *request;
 @property (nonatomic, retain, readonly) NSOperationQueue *queue;
 
+// processingBlock released in the background, so don't capture a 
+// UIViewController there.
+@property (nonatomic, copy, readonly) AEURLConnectionProcessingBlock processingBlock;
+
 // handler is readwrite so that we can nil it out after calling it,
 // to ensure it is released on |queue| and not on the network thread.
-@property (nonatomic, copy, readwrite) void (^handler)(NSURLResponse*, NSData*, NSError*);
+@property (nonatomic, copy, readwrite) id handler;
 
 @property (nonatomic, retain, readwrite) NSURLConnection *connection;
 @property (nonatomic, retain, readwrite) NSURLResponse *response;
@@ -40,7 +45,16 @@
 + (void)sendAsynchronousRequest:(NSURLRequest *)request
                           queue:(NSOperationQueue*)queue
               completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler {
-	AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue completionHandler:handler];
+	AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue processingBlock:nil completionHandler:handler];
+	[[AEURLConnectionManager sharedManager] startRequest:req];
+	[req release];
+}
+
++ (void)sendAsynchronousRequest:(NSURLRequest *)request 
+						  queue:(NSOperationQueue *)queue
+				processingBlock:(AEURLConnectionProcessingBlock)processingBlock
+			  completionHandler:(void (^)(NSURLResponse *, id, NSError *))handler {
+	AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue processingBlock:processingBlock completionHandler:handler];
 	[[AEURLConnectionManager sharedManager] startRequest:req];
 	[req release];
 }
@@ -170,14 +184,16 @@ static AEURLConnectionManager *sharedManager = nil;
 	[[req data] appendData:data];
 }
 
-- (void)executeHandlerForConnection:(NSURLConnection *)connection error:(NSError *)error {
-	AEURLConnectionRequest *req = [self executingRequestForConnection:connection];
+- (void)safelyCallCompletionHandler:(AEURLConnectionRequest *)req error:(NSError *)error data:(id)data {
+	if (error) {
+		NSAssert(data == nil, @"Didn't expect both error and data");
+	}
 	
 	// It is very important that |handler| is deallocated in the context of
 	// |queue|, since doing so has the very nice property of solving the thorny
 	// Deallocation Problem:
 	// http://developer.apple.com/library/ios/#technotes/tn2109/_index.html#//apple_ref/doc/uid/DTS40010274-CH1-SUBSECTION11#//apple_ref/doc/uid/DTS40010274-CH1-SUBSECTION11
-	// Note that:
+	// Two approaches to ensuring this that *don't* work:
 	// - You might create a block that captures |handler|, separately from 
 	//   adding it to the queue, and call setHandler:nil between creating that
 	//   block and adding it to the queue, in an attempt to ensure |handler|
@@ -197,25 +213,53 @@ static AEURLConnectionManager *sharedManager = nil;
 	
 	// So, create a __block variable with a copy of the handler. This prevents
 	// any kind of variable capture for |handler| itself.
-	__block void (^handler)(NSURLResponse *, NSData *, NSError *) = [[req handler] copy];
+	__block void (^handler)(NSURLResponse *, id, NSError *) = [[req handler] copy];
 	// Now call setHandler:nil on |req|. This should release our last retaining
 	// reference to |handler| EXCEPT for the __block variable.
 	[req setHandler:nil];
-	// Now |handler| is at +1 retain count. Have it release on |queue| after
-	// executing. That guarantees our last reference is released on |queue|.
+	// Now |handler| is at +1 retain count. We release it on |queue| after
+	// executing it. That guarantees our last reference is released on |queue|.
 	
 	// Note that the block below captures |req|. That is OK since |req| no 
 	// longer has a reference to |handler| (since we called setHandler:nil).
 	
 	[[req queue] addOperationWithBlock:^{
-		handler([req response], error ? nil : [req data], error);
+		handler([req response], data, error);
 		[handler release];
 	}];
+}
+
+- (void)executeHandlerForConnection:(NSURLConnection *)connection error:(NSError *)error {
+	AEURLConnectionRequest *req = [self executingRequestForConnection:connection];
+	
+	if ([req processingBlock]) {
+		// Create a serial queue to avoid thrashing the CPU.
+		static dispatch_queue_t processing_queue;
+		static dispatch_once_t once_token;
+		dispatch_once(&once_token, ^{
+			processing_queue = dispatch_queue_create("com.adamernst.AEURLConnection.processing", 0);
+		});
+		
+		dispatch_async(processing_queue, ^{
+			AEURLConnectionProcessingBlock processor = [req processingBlock];
+			NSError *error = nil;
+			id processedData = processor([req response], [req data], &error);
+			if (processedData) {
+				[self safelyCallCompletionHandler:req error:nil data:processedData];
+			} else {
+				[self safelyCallCompletionHandler:req error:error data:processedData];
+			}
+		});
+	} else {
+		[self safelyCallCompletionHandler:req error:error data:[req data]];
+	}
 	
 	// Don't remove |req| from |_executingRequests| until this point. Since
 	// the array is the last retaining reference to |req|, removing it sooner 
 	// will deallocate |req| (and cause us to crash when we try to access its 
 	// properties).
+	// By this point, we're either done accessing req or it's been captured by
+	// a block executing asynchronously.
 	[_executingRequests removeObject:req];
 }
 
@@ -236,17 +280,22 @@ static AEURLConnectionManager *sharedManager = nil;
 
 @synthesize request=_request;
 @synthesize queue=_queue;
+@synthesize processingBlock=_processingBlock;
 @synthesize handler=_handler;
 
 @synthesize connection=_connection;
 @synthesize response=_response;
 @synthesize data=_data;
 
-- (id)initWithRequest:(NSURLRequest *)request queue:(NSOperationQueue *)queue completionHandler:(id)handler {
+- (id)initWithRequest:(NSURLRequest *)request
+				queue:(NSOperationQueue *)queue 
+	  processingBlock:(AEURLConnectionProcessingBlock)processingBlock
+	completionHandler:(id)handler {
 	self = [super init];
 	if (self) {
 		_request = [request retain];
 		_queue = [queue retain];
+		_processingBlock = [processingBlock copy];
 		_handler = [handler copy];
 	}
 	return self;
@@ -255,9 +304,13 @@ static AEURLConnectionManager *sharedManager = nil;
 - (void)dealloc {
 	[_request release];
 	[_queue release];
+	[_processingBlock release];
 	[_handler release];
+	
+	[_connection release];
 	[_response release];
 	[_data release];
+	
 	[super dealloc];
 }
 

@@ -8,7 +8,7 @@
 
 #import "AEViewController.h"
 #import "AEURLConnection.h"
-#import "JSONKit.h"
+#import "AEJSONProcessingBlock.h"
 
 @interface AEViewController ()
 @property (nonatomic, retain) NSArray *keys;
@@ -32,7 +32,8 @@
 		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://graph.facebook.com/137947732957611"]];
 		[AEURLConnection sendAsynchronousRequest:request
 										   queue:[NSOperationQueue mainQueue]
-							   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+								 processingBlock:[AEJSONProcessingBlock JSONProcessingBlock]
+							   completionHandler:^(NSURLResponse *response, id data, NSError *error) {
 								   [spinner stopAnimating];
 								   
 								   if (error) {
@@ -42,9 +43,8 @@
 														  cancelButtonTitle:@"OK"
 														  otherButtonTitles:nil] autorelease] show];
 								   } else {
-									   id parsedResult = [data objectFromJSONData];
-									   [self setKeys:[parsedResult allKeys]];
-									   [self setResult:parsedResult];
+									   [self setKeys:[data allKeys]];
+									   [self setResult:data];
 									   [[self tableView] reloadData];
 								   }
 							   }];

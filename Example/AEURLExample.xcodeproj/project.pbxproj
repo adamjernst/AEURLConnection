@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C448BB061447332A00228625 /* AEJSONProcessingBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C448BB051447332A00228625 /* AEJSONProcessingBlock.m */; };
 		C4C186871445FF9C003DBCC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186861445FF9C003DBCC0 /* UIKit.framework */; };
 		C4C186891445FF9C003DBCC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186881445FF9C003DBCC0 /* Foundation.framework */; };
 		C4C1868B1445FF9C003DBCC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C1868A1445FF9C003DBCC0 /* CoreGraphics.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C448BB041447332A00228625 /* AEJSONProcessingBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEJSONProcessingBlock.h; sourceTree = "<group>"; };
+		C448BB051447332A00228625 /* AEJSONProcessingBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEJSONProcessingBlock.m; sourceTree = "<group>"; };
 		C4C186821445FF9C003DBCC0 /* AEURLExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEURLExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4C186861445FF9C003DBCC0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C4C186881445FF9C003DBCC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -165,6 +168,8 @@
 			children = (
 				C4C186C11445FFD7003DBCC0 /* AEURLConnection.h */,
 				C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */,
+				C448BB041447332A00228625 /* AEJSONProcessingBlock.h */,
+				C448BB051447332A00228625 /* AEJSONProcessingBlock.m */,
 			);
 			name = AEURLConnection;
 			path = ../AEURLConnection;
@@ -282,6 +287,7 @@
 				C4C1869A1445FF9C003DBCC0 /* AEViewController.m in Sources */,
 				C4C186C31445FFD7003DBCC0 /* AEURLConnection.m in Sources */,
 				C4C186CB144615CF003DBCC0 /* JSONKit.m in Sources */,
+				C448BB061447332A00228625 /* AEJSONProcessingBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
