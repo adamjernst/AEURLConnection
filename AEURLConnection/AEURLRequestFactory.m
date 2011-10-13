@@ -16,91 +16,91 @@ static NSString * AEBase64EncodedStringFromString(NSString *string);
 @implementation AEURLRequestFactory
 
 + (AEURLRequestFactory *)defaultFactory {
-	static AEURLRequestFactory *defaultFactory;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		defaultFactory = [[AEURLRequestFactory alloc] init];
-	});
-	return defaultFactory;
+    static AEURLRequestFactory *defaultFactory;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultFactory = [[AEURLRequestFactory alloc] init];
+    });
+    return defaultFactory;
 }
 
 - (id)init {
-	self = [super init];
-	if (self) {
-		_defaultHeaderValues = [[NSMutableDictionary alloc] init];
-	}
-	return self;
+    self = [super init];
+    if (self) {
+        _defaultHeaderValues = [[NSMutableDictionary alloc] init];
+    }
+    return self;
 }
 
 - (void)dealloc {
-	[_defaultHeaderValues release];
-	[super dealloc];
+    [_defaultHeaderValues release];
+    [super dealloc];
 }
 
 - (NSURLRequest *)requestWithURL:(NSURL *)url
-						  method:(NSString *)method 
-					  parameters:(NSDictionary *)parameters {
-	AEURLConnectionParameterProcessingBlock processingBlock = nil;
-	if ([method isEqualToString:@"GET"]) {
-		processingBlock = [AEURLRequestFactory queryStringProcessingBlock];
-	} else {
-		processingBlock = [AEURLRequestFactory formURLEncodedProcessingBlock];
-	}
-	return [self requestWithURL:url method:method parameters:parameters parameterProcessingBlock:processingBlock];
+                          method:(NSString *)method 
+                      parameters:(NSDictionary *)parameters {
+    AEURLConnectionParameterProcessingBlock processingBlock = nil;
+    if ([method isEqualToString:@"GET"]) {
+        processingBlock = [AEURLRequestFactory queryStringProcessingBlock];
+    } else {
+        processingBlock = [AEURLRequestFactory formURLEncodedProcessingBlock];
+    }
+    return [self requestWithURL:url method:method parameters:parameters parameterProcessingBlock:processingBlock];
 }
 
 - (NSURLRequest *)requestWithURL:(NSURL *)url
-						  method:(NSString *)method 
-					  parameters:(NSDictionary *)parameters
-		parameterProcessingBlock:(AEURLConnectionParameterProcessingBlock)parameterProcessingBlock {
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-	[request setHTTPMethod:method];
-	[request setAllHTTPHeaderFields:_defaultHeaderValues];
-	parameterProcessingBlock(parameters, request);
-	return request;
+                          method:(NSString *)method 
+                      parameters:(NSDictionary *)parameters
+        parameterProcessingBlock:(AEURLConnectionParameterProcessingBlock)parameterProcessingBlock {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:method];
+    [request setAllHTTPHeaderFields:_defaultHeaderValues];
+    parameterProcessingBlock(parameters, request);
+    return request;
 }
 
 #pragma mark - Default Header Values
 
 - (NSString *)defaultValueForHeader:(NSString *)header {
-	return [_defaultHeaderValues objectForKey:header];
+    return [_defaultHeaderValues objectForKey:header];
 }
 
 - (void)setDefaultValue:(NSString *)value forHeader:(NSString *)header {
-	[_defaultHeaderValues setObject:value forKey:header];
+    [_defaultHeaderValues setObject:value forKey:header];
 }
 
 #pragma mark - Authorization Header Generation
 
 + (NSString *)authorizationHeaderForUsername:(NSString *)username password:(NSString *)password {
-	return [NSString stringWithFormat:@"Basic %@", AEBase64EncodedStringFromString([NSString stringWithFormat:@"%@:%@", username, password])];
+    return [NSString stringWithFormat:@"Basic %@", AEBase64EncodedStringFromString([NSString stringWithFormat:@"%@:%@", username, password])];
 }
 
 #pragma mark - Parameter Encoding Blocks
 
 + (AEURLConnectionParameterProcessingBlock)queryStringProcessingBlock {
-	static AEURLConnectionParameterProcessingBlock queryStringProcessingBlock;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		queryStringProcessingBlock = [^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
-			NSString *oldURL = [[targetRequest URL] absoluteString];
-			NSURL *newURL = [NSURL URLWithString:[oldURL stringByAppendingFormat:[oldURL rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AEQueryStringFromParameters(parameters)]];
-			[targetRequest setURL:newURL];
-		} copy];
-	});
-	return queryStringProcessingBlock;
+    static AEURLConnectionParameterProcessingBlock queryStringProcessingBlock;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        queryStringProcessingBlock = [^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
+            NSString *oldURL = [[targetRequest URL] absoluteString];
+            NSURL *newURL = [NSURL URLWithString:[oldURL stringByAppendingFormat:[oldURL rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AEQueryStringFromParameters(parameters)]];
+            [targetRequest setURL:newURL];
+        } copy];
+    });
+    return queryStringProcessingBlock;
 }
 
 + (AEURLConnectionParameterProcessingBlock)formURLEncodedProcessingBlock {
-	static AEURLConnectionParameterProcessingBlock formURLEncodedProcessingBlock;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		formURLEncodedProcessingBlock = [^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
-			[targetRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-			[targetRequest setHTTPBody:[AEQueryStringFromParameters(parameters) dataUsingEncoding:NSUTF8StringEncoding]];
-		} copy];
-	});
-	return formURLEncodedProcessingBlock;
+    static AEURLConnectionParameterProcessingBlock formURLEncodedProcessingBlock;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formURLEncodedProcessingBlock = [^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
+            [targetRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+            [targetRequest setHTTPBody:[AEQueryStringFromParameters(parameters) dataUsingEncoding:NSUTF8StringEncoding]];
+        } copy];
+    });
+    return formURLEncodedProcessingBlock;
 }
 
 #pragma mark - URLEncoding
@@ -112,7 +112,7 @@ static NSString * AEBase64EncodedStringFromString(NSString *string);
 static NSString * AEURLEncodedStringFromString(NSString *string) {
     static NSString * const kAFLegalCharactersToBeEscaped = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\|~ ";
     
-	return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, (CFStringRef)kAFLegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) autorelease];
+    return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, (CFStringRef)kAFLegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) autorelease];
 }
 
 static NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
@@ -143,7 +143,7 @@ static NSString * AEBase64EncodedStringFromString(NSString *string) {
         }
         
         static uint8_t const kAFBase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-		
+        
         NSUInteger idx = (i / 3) * 4;
         output[idx + 0] = kAFBase64EncodingTable[(value >> 18) & 0x3F];
         output[idx + 1] = kAFBase64EncodingTable[(value >> 12) & 0x3F];

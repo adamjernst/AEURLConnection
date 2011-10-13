@@ -100,6 +100,7 @@
 				C4C186831445FF9C003DBCC0 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		C4C186831445FF9C003DBCC0 /* Products */ = {
 			isa = PBXGroup;

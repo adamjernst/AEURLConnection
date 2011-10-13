@@ -26,8 +26,8 @@ typedef id (^AEURLConnectionResponseProcessingBlock)(NSURLResponse *, NSData *, 
 // of an NSData* object.
 // Check out AEJSONProcessingBlock for an example usage.
 + (void)sendAsynchronousRequest:(NSURLRequest *)request 
-						  queue:(NSOperationQueue *)queue
-				processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
-			  completionHandler:(void (^)(NSURLResponse *, id, NSError *))handler;
+                          queue:(NSOperationQueue *)queue
+                processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
+              completionHandler:(void (^)(NSURLResponse *, id, NSError *))handler;
 
 @end

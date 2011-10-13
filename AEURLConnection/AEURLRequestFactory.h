@@ -11,7 +11,7 @@
 typedef id (^AEURLConnectionParameterProcessingBlock)(NSDictionary *parameters, NSMutableURLRequest *targetRequest);
 
 @interface AEURLRequestFactory : NSObject {
-	NSMutableDictionary *_defaultHeaderValues;
+    NSMutableDictionary *_defaultHeaderValues;
 }
 
 // A singleton request factory. If you set any default header values on this 
@@ -23,15 +23,15 @@ typedef id (^AEURLConnectionParameterProcessingBlock)(NSDictionary *parameters, 
 // submitted POST form).
 // Need to modify the returned request further? Just use -mutableCopy.
 - (NSURLRequest *)requestWithURL:(NSURL *)url 
-						  method:(NSString *)method 
-					  parameters:(NSDictionary *)parameters;
+                          method:(NSString *)method 
+                      parameters:(NSDictionary *)parameters;
 
 // You can pass any block to put the parameters into the generated request: e.g.
 // JSON, or you could write your own for XML or other encodings.
 - (NSURLRequest *)requestWithURL:(NSURL *)url
-						  method:(NSString *)method 
-					  parameters:(NSDictionary *)parameters
-		parameterProcessingBlock:(AEURLConnectionParameterProcessingBlock)parameterProcessingBlock;
+                          method:(NSString *)method 
+                      parameters:(NSDictionary *)parameters
+        parameterProcessingBlock:(AEURLConnectionParameterProcessingBlock)parameterProcessingBlock;
 
 - (NSString *)defaultValueForHeader:(NSString *)header;
 - (void)setDefaultValue:(NSString *)value forHeader:(NSString *)header;
