@@ -13,11 +13,13 @@ a thorny threading issue that affects most other networking libraries.
 
 1. Construct an `NSURLRequest`.
 2. Send it like this:
+
         [AEURLConnection sendAsynchronousRequest:request 
                                            queue:[NSOperationQueue mainQueue] 
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             // Handle the response, or error.
         }];
+
 3. That's all there is!
 
 ## What's this "Deallocation Problem"? ##
