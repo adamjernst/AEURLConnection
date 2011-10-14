@@ -1,36 +1,40 @@
 //
-//  AEJSONProcessingBlock.m
+//  AEJSONProcessor.m
 //  AEURLExample
 //
 //  Created by Adam Ernst on 10/13/11.
 //  Copyright (c) 2011 cosmicsoft. All rights reserved.
 //
 
-#import "AEJSONProcessingBlock.h"
+#import "AEJSONProcessor.h"
 
-@implementation AEJSONProcessingBlock
+@implementation AEJSONProcessor
 
-static AEURLConnectionResponseProcessingBlock JSONProcessingBlock = nil;
+static AEURLResponseProcessor JSONProcessor = nil;
 
-+ (AEURLConnectionResponseProcessingBlock)JSONResponseProcessingBlock {
++ (AEURLResponseProcessor)JSONResponseProcessor {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        JSONProcessingBlock = [[self JSONResponseProcessingBlockWithOptions:JKParseOptionNone] retain];
+        JSONProcessor = [[self JSONResponseProcessorWithOptions:JKParseOptionNone] retain];
     });
-    return JSONProcessingBlock;
+    return JSONProcessor;
 }
 
-+ (AEURLConnectionResponseProcessingBlock)JSONResponseProcessingBlockWithOptions:(JKParseOptionFlags)options {
++ (AEURLResponseProcessor)JSONResponseProcessorWithOptions:(JKParseOptionFlags)options {
     return [[(id)^(NSURLResponse *response, NSData *data, NSError **error){
         return [data objectFromJSONDataWithParseOptions:options error:error];
     } copy] autorelease];
 }
 
-+ (AEURLConnectionParameterProcessingBlock)JSONParameterProcessingBlock {
++ (AEURLParameterProcessor)JSONParameterProcessor {
     return [[^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
         [targetRequest setHTTPBody:[parameters JSONData]];
         [targetRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     } copy] autorelease];
+}
+
++ (NSSet *)defaultAcceptableJSONContentTypes {
+    return [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", nil];
 }
 
 @end
