@@ -12,14 +12,14 @@
 @interface AEURLConnectionRequest : NSObject
 - (id)initWithRequest:(NSURLRequest *)request 
                 queue:(NSOperationQueue *)queue
-      processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
+      processor:(AEURLResponseProcessor)processor
     completionHandler:handler;
 @property (nonatomic, retain, readonly) NSURLRequest *request;
 @property (nonatomic, retain, readonly) NSOperationQueue *queue;
 
-// processingBlock released in the background, so don't capture a 
+// processor released in the background, so don't capture a 
 // UIViewController or you'll be vulnerable to the Deallocation Problem.
-@property (nonatomic, copy, readonly) AEURLConnectionResponseProcessingBlock processingBlock;
+@property (nonatomic, copy, readonly) AEURLResponseProcessor processor;
 
 // handler is readwrite so that we can nil it out after calling it,
 // to ensure it is released on |queue| and not on the network thread.
@@ -45,18 +45,37 @@
 + (void)sendAsynchronousRequest:(NSURLRequest *)request
                           queue:(NSOperationQueue*)queue
               completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler {
-    AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue processingBlock:nil completionHandler:handler];
-    [[AEURLConnectionManager sharedManager] startRequest:req];
-    [req release];
+    return [AEURLConnection sendAsynchronousRequest:request queue:queue processor:nil completionHandler:handler];
 }
 
 + (void)sendAsynchronousRequest:(NSURLRequest *)request 
                           queue:(NSOperationQueue *)queue
-                processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
+                      processor:(AEURLResponseProcessor)processor
               completionHandler:(void (^)(NSURLResponse *, id, NSError *))handler {
-    AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue processingBlock:processingBlock completionHandler:handler];
+    AEURLConnectionRequest *req = [[AEURLConnectionRequest alloc] initWithRequest:request queue:queue processor:processor completionHandler:handler];
     [[AEURLConnectionManager sharedManager] startRequest:req];
     [req release];
+}
+
++ (AEURLResponseProcessor)chainedResponseProcessor:(AEURLResponseProcessor)firstProcessor, ... {
+    NSMutableArray *processors = [NSMutableArray array];
+    va_list args;
+    va_start(args, firstProcessor);
+    for (AEURLResponseProcessor processor = firstProcessor; processor != nil; processor = va_arg(args, AEURLResponseProcessor)) {
+        [processors addObject:[[processor copy] autorelease]];
+    }
+    
+    return [[^(NSURLResponse *response, id data, NSError **error) {
+        id newData = data;
+        for (AEURLResponseProcessor processor in processors) {
+            newData = processor(response, newData, error);
+            if (*error) {
+                NSAssert(newData == nil, @"Expected data or error but not both");
+                return nil;
+            }
+        }
+        return newData;
+    } copy] autorelease];
 }
 
 @end
@@ -232,26 +251,28 @@ static AEURLConnectionManager *sharedManager = nil;
 - (void)executeHandlerForConnection:(NSURLConnection *)connection error:(NSError *)error {
     AEURLConnectionRequest *req = [self executingRequestForConnection:connection];
     
-    if ([req processingBlock]) {
+    if (!error && [req processor]) {
         // Create a serial queue to avoid thrashing the CPU.
         static dispatch_queue_t processing_queue;
         static dispatch_once_t once_token;
         dispatch_once(&once_token, ^{
             processing_queue = dispatch_queue_create("com.adamernst.AEURLConnection.processing", 0);
+			// Don't use DISPATCH_QUEUE_PRIORITY_BACKGROUND as it doesn't exist
+            // on earlier versions of iOS.
+			dispatch_set_target_queue(processing_queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
         });
         
         dispatch_async(processing_queue, ^{
-            AEURLConnectionResponseProcessingBlock processor = [req processingBlock];
-            NSError *error = nil;
-            id processedData = processor([req response], [req data], &error);
-            if (processedData) {
-                [self safelyCallCompletionHandler:req error:nil data:processedData];
-            } else {
-                [self safelyCallCompletionHandler:req error:error data:processedData];
-            }
+            AEURLResponseProcessor processor = [req processor];
+            NSError *processorError = nil;
+            id processedData = processor([req response], [req data], &processorError);
+            // Note that the block is required to either return data and leave 
+            // error untouched, or set an error and return nil. This is enforced
+            // with an assertion in |safelyCallCompletionHandler:error:data:|.
+            [self safelyCallCompletionHandler:req error:processorError data:processedData];
         });
     } else {
-        [self safelyCallCompletionHandler:req error:error data:[req data]];
+        [self safelyCallCompletionHandler:req error:error data:error ? nil : [req data]];
     }
     
     // Don't remove |req| from |_executingRequests| until this point. Since
@@ -280,7 +301,7 @@ static AEURLConnectionManager *sharedManager = nil;
 
 @synthesize request=_request;
 @synthesize queue=_queue;
-@synthesize processingBlock=_processingBlock;
+@synthesize processor=_processor;
 @synthesize handler=_handler;
 
 @synthesize connection=_connection;
@@ -289,13 +310,13 @@ static AEURLConnectionManager *sharedManager = nil;
 
 - (id)initWithRequest:(NSURLRequest *)request
                 queue:(NSOperationQueue *)queue 
-      processingBlock:(AEURLConnectionResponseProcessingBlock)processingBlock
+            processor:(AEURLResponseProcessor)processor
     completionHandler:(id)handler {
     self = [super init];
     if (self) {
         _request = [request retain];
         _queue = [queue retain];
-        _processingBlock = [processingBlock copy];
+        _processor = [processor copy];
         _handler = [handler copy];
     }
     return self;
@@ -304,7 +325,7 @@ static AEURLConnectionManager *sharedManager = nil;
 - (void)dealloc {
     [_request release];
     [_queue release];
-    [_processingBlock release];
+    [_processor release];
     [_handler release];
     
     [_connection release];

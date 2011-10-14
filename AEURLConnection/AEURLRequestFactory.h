@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef id (^AEURLConnectionParameterProcessingBlock)(NSDictionary *parameters, NSMutableURLRequest *targetRequest);
+typedef id (^AEURLParameterProcessor)(NSDictionary *parameters, NSMutableURLRequest *targetRequest);
 
 @interface AEURLRequestFactory : NSObject {
     NSMutableDictionary *_defaultHeaderValues;
@@ -27,11 +27,12 @@ typedef id (^AEURLConnectionParameterProcessingBlock)(NSDictionary *parameters, 
                       parameters:(NSDictionary *)parameters;
 
 // You can pass any block to put the parameters into the generated request: e.g.
-// JSON, or you could write your own for XML or other encodings.
+// [AEJSONProcessor JSONParameterProcessor], or you could write your own for 
+// XML, plist, or other encodings.
 - (NSURLRequest *)requestWithURL:(NSURL *)url
                           method:(NSString *)method 
                       parameters:(NSDictionary *)parameters
-        parameterProcessingBlock:(AEURLConnectionParameterProcessingBlock)parameterProcessingBlock;
+              parameterProcessor:(AEURLParameterProcessor)parameterProcessor;
 
 - (NSString *)defaultValueForHeader:(NSString *)header;
 - (void)setDefaultValue:(NSString *)value forHeader:(NSString *)header;
@@ -42,12 +43,12 @@ typedef id (^AEURLConnectionParameterProcessingBlock)(NSDictionary *parameters, 
 
 // A parameter processing block that puts the parameters into the query string
 // (usually for GET requests).
-+ (AEURLConnectionParameterProcessingBlock)queryStringProcessingBlock;
++ (AEURLParameterProcessor)queryStringProcessor;
 
 // A parameter processing block that puts the parameters into the HTTP body in
 // x-www-form-urlencoded format, like a browser's POST form encoding.
-+ (AEURLConnectionParameterProcessingBlock)formURLEncodedProcessingBlock;
++ (AEURLParameterProcessor)formURLEncodedProcessor;
 
-// See AEJSONProcessingBlock for a parameter processing block that creates JSON.
+// See AEJSONProcessor for a parameter processing block that creates JSON.
 
 @end
