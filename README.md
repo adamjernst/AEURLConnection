@@ -21,8 +21,10 @@ a thorny threading issue that affects most other networking libraries.
 
 [Read up on it here.](http://developer.apple.com/library/ios/technotes/tn2109/_index.html#//apple_ref/doc/uid/DTS40010274-CH1-SUBSECTION11)
 If you are making asynchronous network requests from a `UIViewController`, 
-your app almost certainly **will crash** under certain circumstances. Here's 
-a short summary:
+your app almost certainly **will crash** under certain circumstances. (Of
+course, you shouldn't be calling the network from `UIViewController` if
+you're implementing MVC properly, but that's another story!) Here's a
+short summary:
 
 1. UIViewController **must** be deallocated on the main thread.
 2. Depending on how you are issuing asynchronous network requests, it is 
