@@ -22,17 +22,21 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 + (AEURLResponseProcessor)statusCode:(NSIndexSet *)acceptableCodes {
     return [[^(NSURLResponse *response, id data, NSError **error){
         if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
-            *error = [AEExpect error:AEExpectResponseNotHTTPError
-                             message:@"Response is not HTTP"];
+            if (error) {
+                *error = [AEExpect error:AEExpectResponseNotHTTPError
+                                 message:@"Response is not HTTP"];
+            }
             return nil;
         }
         
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         if (![acceptableCodes containsIndex:statusCode]) {
-            *error = [AEExpect error:AEExpectInvalidStatusCodeError
-                             message:[NSString stringWithFormat:@"%@ (HTTP status %d)", 
-                                      [NSHTTPURLResponse localizedStringForStatusCode:statusCode], 
-                                      statusCode]];
+            if (error) {
+                *error = [AEExpect error:AEExpectInvalidStatusCodeError
+                                 message:[NSString stringWithFormat:@"%@ (HTTP status %d)", 
+                                          [NSHTTPURLResponse localizedStringForStatusCode:statusCode], 
+                                          statusCode]];
+            }
             return nil;
         }
         
@@ -49,8 +53,10 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 + (AEURLResponseProcessor)contentType:(NSSet *)acceptableTypes {
     return [[^(NSURLResponse *response, id data, NSError **error) {
         if (![acceptableTypes containsObject:[response MIMEType]]) {
-            *error = [AEExpect error:AEExpectInvalidContentTypeError
-                             message:[NSString stringWithFormat:@"Invalid Content-Type %@", [response MIMEType]]];
+            if (error) {
+                *error = [AEExpect error:AEExpectInvalidContentTypeError
+                                 message:[NSString stringWithFormat:@"Invalid Content-Type %@", [response MIMEType]]];
+            }
             return nil;
         }
         
@@ -64,8 +70,10 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 + (AEURLResponseProcessor)responseClass:(Class)class {
     return [[^(NSURLResponse *response, id data, NSError **error) {
         if (![data isKindOfClass:class]) {
-            *error = [AEExpect error:AEExpectInvalidResponseClassError
-                             message:[NSString stringWithFormat:@"Invalid response class %@", NSStringFromClass([data class])]];
+            if (error) {
+                *error = [AEExpect error:AEExpectInvalidResponseClassError
+                                 message:[NSString stringWithFormat:@"Invalid response class %@", NSStringFromClass([data class])]];
+            }
             return nil;
         }
         

@@ -148,6 +148,7 @@ static AEURLConnectionManager *sharedManager = nil;
     // stored in |_executingRequests|, start it on the network thread.
     [connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [connection start];
+    [connection release];
 }
 
 - (AEURLConnectionRequest *)executingRequestForConnection:(NSURLConnection *)connection {

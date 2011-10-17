@@ -12,7 +12,7 @@
 // It is REQUIRED that the block either returns an object and leaves the error
 // parameter untouched, or sets an error and returns nil. This is enforced with
 // an assertion.
-typedef id (^AEURLResponseProcessor)(NSURLResponse *, NSData *, NSError **);
+typedef id (^AEURLResponseProcessor)(NSURLResponse *, id, NSError **);
 
 @interface AEURLConnection : NSObject
 
