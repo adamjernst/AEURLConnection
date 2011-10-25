@@ -8,11 +8,6 @@
 
 #import "AEURLRequestFactory.h"
 
-// Forward declarations:
-static NSString * AEURLEncodedStringFromString(NSString *string);
-static NSString * AEQueryStringFromParameters(NSDictionary *parameters);
-static NSString * AEBase64EncodedStringFromString(NSString *string);
-
 @implementation AEURLRequestFactory
 
 + (AEURLRequestFactory *)defaultFactory {
@@ -109,13 +104,13 @@ static NSString * AEBase64EncodedStringFromString(NSString *string);
 // AF in the function prefix to prevent linker conflicts). Thanks AFNetworking!
 // (Used with permission.)
 
-static NSString * AEURLEncodedStringFromString(NSString *string) {
+NSString * AEURLEncodedStringFromString(NSString *string) {
     static NSString * const kAFLegalCharactersToBeEscaped = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\|~ ";
     
     return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, (CFStringRef)kAFLegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) autorelease];
 }
 
-static NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
+NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
     NSMutableArray *mutableParameterComponents = [NSMutableArray array];
     for (id key in [parameters allKeys]) {
         NSString *component = [NSString stringWithFormat:@"%@=%@", AEURLEncodedStringFromString([key description]), AEURLEncodedStringFromString([[parameters valueForKey:key] description])];
@@ -125,7 +120,7 @@ static NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
     return [mutableParameterComponents componentsJoinedByString:@"&"];
 }
 
-static NSString * AEBase64EncodedStringFromString(NSString *string) {
+NSString * AEBase64EncodedStringFromString(NSString *string) {
     NSData *data = [NSData dataWithBytes:[string UTF8String] length:[string length]];
     NSUInteger length = [data length];
     NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 2) / 3) * 4];

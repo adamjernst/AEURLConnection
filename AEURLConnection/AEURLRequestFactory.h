@@ -49,6 +49,15 @@ typedef id (^AEURLParameterProcessor)(NSDictionary *parameters, NSMutableURLRequ
 // x-www-form-urlencoded format, like a browser's POST form encoding.
 + (AEURLParameterProcessor)formURLEncodedProcessor;
 
+// A utility function to url-encode a value.
+NSString * AEURLEncodedStringFromString(NSString *string);
+
+// A utility function to turn a dictionary into a urlencoded string.
+NSString * AEQueryStringFromParameters(NSDictionary *parameters);
+
+// A utility function to base-64 encode a string.
+NSString * AEBase64EncodedStringFromString(NSString *string);
+
 // See AEJSONProcessor for a parameter processing block that creates JSON.
 
 @end
