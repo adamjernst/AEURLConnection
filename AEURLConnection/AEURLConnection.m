@@ -57,27 +57,6 @@
     [req release];
 }
 
-+ (AEURLResponseProcessor)chainedResponseProcessor:(AEURLResponseProcessor)firstProcessor, ... {
-    NSMutableArray *processors = [NSMutableArray array];
-    va_list args;
-    va_start(args, firstProcessor);
-    for (AEURLResponseProcessor processor = firstProcessor; processor != nil; processor = va_arg(args, AEURLResponseProcessor)) {
-        [processors addObject:[[processor copy] autorelease]];
-    }
-    
-    return [[^(NSURLResponse *response, id data, NSError **error) {
-        id newData = data;
-        for (AEURLResponseProcessor processor in processors) {
-            newData = processor(response, newData, error);
-            if (*error) {
-                NSAssert(newData == nil, @"Expected data or error but not both");
-                return nil;
-            }
-        }
-        return newData;
-    } copy] autorelease];
-}
-
 @end
 
 
