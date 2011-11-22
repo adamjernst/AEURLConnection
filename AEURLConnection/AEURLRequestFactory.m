@@ -68,7 +68,7 @@
 #pragma mark - Authorization Header Generation
 
 + (NSString *)authorizationHeaderForUsername:(NSString *)username password:(NSString *)password {
-    return [NSString stringWithFormat:@"Basic %@", AEBase64EncodedStringFromString([NSString stringWithFormat:@"%@:%@", username, password])];
+    return [NSString stringWithFormat:@"Basic %@", AEBase64EncodedStringFromData([[NSString stringWithFormat:@"%@:%@", username, password] dataUsingEncoding:NSUTF8StringEncoding])];
 }
 
 #pragma mark - Parameter Encoding Blocks
@@ -120,8 +120,7 @@ NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
     return [mutableParameterComponents componentsJoinedByString:@"&"];
 }
 
-NSString * AEBase64EncodedStringFromString(NSString *string) {
-    NSData *data = [NSData dataWithBytes:[string UTF8String] length:[string length]];
+NSString * AEBase64EncodedStringFromData(NSData *data) {
     NSUInteger length = [data length];
     NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
     

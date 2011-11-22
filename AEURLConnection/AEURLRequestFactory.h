@@ -55,8 +55,8 @@ NSString * AEURLEncodedStringFromString(NSString *string);
 // A utility function to turn a dictionary into a urlencoded string.
 NSString * AEQueryStringFromParameters(NSDictionary *parameters);
 
-// A utility function to base-64 encode a string.
-NSString * AEBase64EncodedStringFromString(NSString *string);
+// A utility function to base-64 encode some data.
+NSString * AEBase64EncodedStringFromData(NSData *data);
 
 // See AEJSONProcessor for a parameter processing block that creates JSON.
 
