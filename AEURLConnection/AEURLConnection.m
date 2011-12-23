@@ -9,10 +9,12 @@
 #import "AEURLConnection.h"
 
 
-@interface AEURLConnectionRequest : NSObject
+@interface AEURLConnectionRequest : NSObject {
+    id _handler;
+}
 - (id)initWithRequest:(NSURLRequest *)request 
                 queue:(NSOperationQueue *)queue
-      processor:(AEURLResponseProcessor)processor
+            processor:(AEURLResponseProcessor)processor
     completionHandler:handler;
 @property (nonatomic, retain, readonly) NSURLRequest *request;
 @property (nonatomic, retain, readonly) NSOperationQueue *queue;
@@ -282,7 +284,7 @@ static AEURLConnectionManager *sharedManager = nil;
 @synthesize request=_request;
 @synthesize queue=_queue;
 @synthesize processor=_processor;
-@synthesize handler=_handler;
+@dynamic handler;
 
 @synthesize connection=_connection;
 @synthesize response=_response;
@@ -313,6 +315,23 @@ static AEURLConnectionManager *sharedManager = nil;
     [_data release];
     
     [super dealloc];
+}
+
+// The |handler| getter and setter are dynamic instead of synthesized to 
+// make sure that the runtime doesn't pull any tricks with autorelease 
+// (which would negate our guarantee that handler is released on the target 
+// queue). Thanks to Mike Ash for suggesting I avoid synthesized getters for 
+// this reason.
+
+- (id)handler {
+    return _handler;
+}
+
+- (void)setHandler:(id)newHandler {
+    if (newHandler != _handler) {
+        [_handler release];
+        _handler = [newHandler retain];
+    }
 }
 
 @end
