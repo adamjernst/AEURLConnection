@@ -10,6 +10,7 @@
 #import "AEURLConnection.h"
 #import "AEJSONProcessor.h"
 #import "AEExpect.h"
+#import "AEURLResponseProcessors.h"
 
 @interface AEViewController ()
 @property (nonatomic, retain) NSArray *keys;
@@ -33,7 +34,7 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://graph.facebook.com/137947732957611"]];
         [AEURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
-                                 processor:[AEURLConnection chainedResponseProcessor:
+                                 processor:[AEURLResponseProcessors chainedResponseProcessor:
                                             [AEExpect statusCode:[AEExpect defaultAcceptableStatusCodes]],
                                             [AEExpect contentType:[AEJSONProcessor defaultAcceptableJSONContentTypes]],
                                             [AEJSONProcessor JSONResponseProcessor], nil]

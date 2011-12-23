@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C42113D814A4D012006E19D2 /* AEURLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C42113D514A4D012006E19D2 /* AEURLRequestOperation.m */; };
+		C42113D914A4D012006E19D2 /* AEURLResponseProcessors.m in Sources */ = {isa = PBXBuildFile; fileRef = C42113D714A4D012006E19D2 /* AEURLResponseProcessors.m */; };
 		C448BB061447332A00228625 /* AEJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = C448BB051447332A00228625 /* AEJSONProcessor.m */; };
 		C448BB1A14473D0A00228625 /* AEURLRequestFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C448BB1914473D0A00228625 /* AEURLRequestFactory.m */; };
 		C4C186871445FF9C003DBCC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C186861445FF9C003DBCC0 /* UIKit.framework */; };
@@ -38,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C42113D414A4D012006E19D2 /* AEURLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEURLRequestOperation.h; sourceTree = "<group>"; };
+		C42113D514A4D012006E19D2 /* AEURLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEURLRequestOperation.m; sourceTree = "<group>"; };
+		C42113D614A4D012006E19D2 /* AEURLResponseProcessors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEURLResponseProcessors.h; sourceTree = "<group>"; };
+		C42113D714A4D012006E19D2 /* AEURLResponseProcessors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEURLResponseProcessors.m; sourceTree = "<group>"; };
 		C448BB041447332A00228625 /* AEJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEJSONProcessor.h; sourceTree = "<group>"; };
 		C448BB051447332A00228625 /* AEJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEJSONProcessor.m; sourceTree = "<group>"; };
 		C448BB1814473D0A00228625 /* AEURLRequestFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEURLRequestFactory.h; sourceTree = "<group>"; };
@@ -181,6 +187,10 @@
 				C448BB1914473D0A00228625 /* AEURLRequestFactory.m */,
 				C4E6E3531447CCCB000AEDA7 /* AEExpect.h */,
 				C4E6E3541447CCCB000AEDA7 /* AEExpect.m */,
+				C42113D414A4D012006E19D2 /* AEURLRequestOperation.h */,
+				C42113D514A4D012006E19D2 /* AEURLRequestOperation.m */,
+				C42113D614A4D012006E19D2 /* AEURLResponseProcessors.h */,
+				C42113D714A4D012006E19D2 /* AEURLResponseProcessors.m */,
 			);
 			name = AEURLConnection;
 			path = ../AEURLConnection;
@@ -301,6 +311,8 @@
 				C448BB061447332A00228625 /* AEJSONProcessor.m in Sources */,
 				C448BB1A14473D0A00228625 /* AEURLRequestFactory.m in Sources */,
 				C4E6E3551447CCCB000AEDA7 /* AEExpect.m in Sources */,
+				C42113D814A4D012006E19D2 /* AEURLRequestOperation.m in Sources */,
+				C42113D914A4D012006E19D2 /* AEURLResponseProcessors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
