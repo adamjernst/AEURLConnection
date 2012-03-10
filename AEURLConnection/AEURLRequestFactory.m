@@ -104,13 +104,13 @@
 // AF in the function prefix to prevent linker conflicts). Thanks AFNetworking!
 // (Used with permission.)
 
-NSString * AEURLEncodedStringFromString(NSString *string) {
+NSString *AEURLEncodedStringFromString(NSString *string) {
     static NSString * const kAFLegalCharactersToBeEscaped = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\|~ ";
     
     return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, (CFStringRef)kAFLegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) autorelease];
 }
 
-NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
+NSString *AEQueryStringFromParameters(NSDictionary *parameters) {
     NSMutableArray *mutableParameterComponents = [NSMutableArray array];
     for (id key in [parameters allKeys]) {
         NSString *component = [NSString stringWithFormat:@"%@=%@", AEURLEncodedStringFromString([key description]), AEURLEncodedStringFromString([[parameters valueForKey:key] description])];
@@ -118,6 +118,45 @@ NSString * AEQueryStringFromParameters(NSDictionary *parameters) {
     }
     
     return [mutableParameterComponents componentsJoinedByString:@"&"];
+}
+
+// AEStringFromURLEncodedString and AEParametersFromQueryString
+// are loosely based on Google Web Toolkit.
+
+NSString *AEStringFromURLEncodedString(NSString *formEncodedString) {
+    NSMutableString *resultString = [NSMutableString stringWithString:formEncodedString];
+    [resultString replaceOccurrencesOfString:@"+"
+                                  withString:@" "
+                                     options:NSLiteralSearch
+                                       range:NSMakeRange(0, [resultString length])];
+    return [resultString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+NSDictionary *AEParametersFromQueryString(NSString *queryString) {
+    NSMutableDictionary *ret = [NSMutableDictionary dictionary];
+    NSArray *components = [queryString componentsSeparatedByString:@"&"];
+    // Use reverse order so that the first occurrence of a key replaces later ones.
+    [components enumerateObjectsWithOptions:NSEnumerationReverse
+                                 usingBlock:^(id component, NSUInteger idx, BOOL *stop) {
+                                     if ([component length] == 0) return;
+                                     
+                                     NSRange pos = [component rangeOfString:@"="];
+                                     NSString *key;
+                                     NSString *val;
+                                     if (pos.location == NSNotFound) {
+                                         key = AEStringFromURLEncodedString(component);
+                                         val = @"";
+                                     } else {
+                                         key = AEStringFromURLEncodedString([component substringToIndex:pos.location]);
+                                         val = AEStringFromURLEncodedString([component substringFromIndex:pos.location + pos.length]);
+                                     }
+                                     // stringByUnescapingQueryString returns nil on invalid UTF8
+                                     // and NSMutableDictionary raises an exception when passed nil values.
+                                     if (!key) key = @"";
+                                     if (!val) val = @"";
+                                     [ret setObject:val forKey:key];
+                                 }];
+    return ret;
 }
 
 NSString * AEBase64EncodedStringFromData(NSData *data) {

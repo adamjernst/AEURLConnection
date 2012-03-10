@@ -8,6 +8,7 @@
 
 #import "AEURLExampleTests.h"
 #import "AEURLConnection.h"
+#import "AEURLRequestFactory.h"
 
 // This object simulates UIViewController, which can only be released on the 
 // main thread. (This is the root of "The Deallocation Problem"; search the 
@@ -60,6 +61,17 @@
     } else if (!deallocedOnMainThread) {
         STFail(@"Main-thread-release-only object was dealloced, but not on main thread");
     }
+}
+
+- (void)testQueryStringEncode {
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"", @"empty_value",
+                       @"blah", @"boring_value",
+                       @"†éß†", @"aççén†é∂", nil];
+    NSString *s = AEQueryStringFromParameters(d);
+    NSDictionary *d2 = AEParametersFromQueryString(s);
+    
+    STAssertEqualObjects(d, d2, @"Query string encoding or decoding failed");
 }
 
 @end
