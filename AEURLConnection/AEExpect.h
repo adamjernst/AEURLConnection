@@ -34,6 +34,6 @@ typedef enum {
 // Sets an error if the passed data is not an instance of a certain class.
 // Handy for use after an AEJSONProcessor, if you want to ensure that
 // you're getting a dictionary vs. an array.
-+ (AEURLResponseProcessor)responseClass:(Class)class;
++ (AEURLResponseProcessor)responseClass:(Class)cl;
 
 @end

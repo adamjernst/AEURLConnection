@@ -67,9 +67,9 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 // Sets an error if the passed data is not an instance of a certain class.
 // Handy for use after an AEJSONProcessor, if you want to ensure that
 // you're getting a dictionary vs. an array.
-+ (AEURLResponseProcessor)responseClass:(Class)class {
++ (AEURLResponseProcessor)responseClass:(Class)cl {
     return [[^(NSURLResponse *response, id data, NSError **error) {
-        if (![data isKindOfClass:class]) {
+        if (![data isKindOfClass:cl]) {
             if (error) {
                 *error = [AEExpect error:AEExpectInvalidResponseClassError
                                  message:[NSString stringWithFormat:@"Invalid response class %@", NSStringFromClass([data class])]];
