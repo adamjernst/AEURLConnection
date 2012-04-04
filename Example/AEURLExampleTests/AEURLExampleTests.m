@@ -74,6 +74,20 @@
     STAssertEqualObjects(d, d2, @"Query string encoding or decoding failed");
 }
 
+- (void)testBase64 {
+    static const int kTestLength = 2043;
+    NSMutableData *testData = [NSMutableData dataWithCapacity:kTestLength];
+    srand(494020102);
+    for (int i = 0; i < kTestLength / 4; i++) { 
+        u_int32_t randomBits = rand();
+        [testData appendBytes:(void*)&randomBits length:4];
+    }
+    
+    NSString *base64Value = AEBase64EncodedStringFromData(testData);
+    NSData *decodedValue = AEDataFromBase64EncodedString(base64Value);
+    STAssertEqualObjects(testData, decodedValue, @"Base 64 encoding or decoding failed");
+}
+
 @end
 
 

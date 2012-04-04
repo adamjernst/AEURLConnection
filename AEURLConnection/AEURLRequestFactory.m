@@ -98,6 +98,8 @@
     return formURLEncodedProcessor;
 }
 
+@end
+
 #pragma mark - URLEncoding
 
 // These functions are based on AFNetworking's equivalents (substituting AE for
@@ -192,8 +194,7 @@ NSData *AEDataFromBase64EncodedString(NSString *base64) {
     // http://cocoawithlove.com/2009/06/base64-encoding-options-on-mac-and.html
 	const char *input = [base64 cStringUsingEncoding:NSUTF8StringEncoding];
 	unsigned long length = strlen(input);
-	NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 3) / 4) * 3];
-	uint8_t *output = [mutableData mutableBytes];
+	NSMutableData *output = [NSMutableData dataWithCapacity:((length + 3) / 4) * 3];
 	
 	//
 	// Definition for "masked-out" areas of the base64DecodeLookup mapping
@@ -244,25 +245,12 @@ NSData *AEDataFromBase64EncodedString(NSString *base64) {
 			}
 		}
 		
-		//
-		// Store the 6 bits from each of the 4 characters as 3 bytes
-		//
-		// (Uses improved bounds checking suggested by Alexandre Colucci)
-		//
-		if(accumulateIndex >= 2)  
-			output[j] = (accumulated[0] << 2) | (accumulated[1] >> 4);  
-		if(accumulateIndex >= 3)  
-			output[j + 1] = (accumulated[1] << 4) | (accumulated[2] >> 2);  
-		if(accumulateIndex >= 4)  
-			output[j + 2] = (accumulated[2] << 6) | accumulated[3];
+        for (int k = 0; k < accumulateIndex - 1; k++) {
+            uint8_t byte = (accumulated[k] << (k + 1) * 2) | (accumulated[k + 1] >> (2 - k) * 2);
+			[output appendBytes:&byte length:1];
+        }
 		j += accumulateIndex - 1;
 	}
 	
-	if (output)
-	{
-		*output = j;
-	}
-	return mutableData;
+	return output;
 }
-
-@end
