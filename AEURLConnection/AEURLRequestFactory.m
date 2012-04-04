@@ -105,9 +105,9 @@
 // (Used with permission.)
 
 NSString *AEURLEncodedStringFromString(NSString *string) {
-    static NSString * const kAFLegalCharactersToBeEscaped = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\|~ ";
+    static NSString * const kAELegalCharactersToBeEscaped = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\|~ ";
     
-    return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, (CFStringRef)kAFLegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) autorelease];
+    return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, (CFStringRef)kAELegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) autorelease];
 }
 
 NSString *AEQueryStringFromParameters(NSDictionary *parameters) {
@@ -175,16 +175,94 @@ NSString * AEBase64EncodedStringFromData(NSData *data) {
             }
         }
         
-        static uint8_t const kAFBase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        static uint8_t const kAEBase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         
         NSUInteger idx = (i / 3) * 4;
-        output[idx + 0] = kAFBase64EncodingTable[(value >> 18) & 0x3F];
-        output[idx + 1] = kAFBase64EncodingTable[(value >> 12) & 0x3F];
-        output[idx + 2] = (i + 1) < length ? kAFBase64EncodingTable[(value >> 6)  & 0x3F] : '=';
-        output[idx + 3] = (i + 2) < length ? kAFBase64EncodingTable[(value >> 0)  & 0x3F] : '=';
+        output[idx + 0] = kAEBase64EncodingTable[(value >> 18) & 0x3F];
+        output[idx + 1] = kAEBase64EncodingTable[(value >> 12) & 0x3F];
+        output[idx + 2] = (i + 1) < length ? kAEBase64EncodingTable[(value >> 6)  & 0x3F] : '=';
+        output[idx + 3] = (i + 2) < length ? kAEBase64EncodingTable[(value >> 0)  & 0x3F] : '=';
     }
     
     return [[[NSString alloc] initWithData:mutableData encoding:NSASCIIStringEncoding] autorelease];
+}
+
+NSData *AEDataFromBase64EncodedString(NSString *base64) {
+	// Adapted from NSData+Base64; Thanks, Matt Gallagher!
+    // http://cocoawithlove.com/2009/06/base64-encoding-options-on-mac-and.html
+	const char *input = [base64 cStringUsingEncoding:NSUTF8StringEncoding];
+	unsigned long length = strlen(input);
+	NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 3) / 4) * 3];
+	uint8_t *output = [mutableData mutableBytes];
+	
+	//
+	// Definition for "masked-out" areas of the base64DecodeLookup mapping
+	//
+	static const unsigned char xx = 65;
+	
+	//
+	// Mapping from ASCII character to 6 bit pattern.
+	//
+	static unsigned char base64DecodeLookup[256] =
+	{
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 62, xx, xx, xx, 63, 
+		52, 53, 54, 55, 56, 57, 58, 59, 60, 61, xx, xx, xx, xx, xx, xx, 
+		xx,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 
+		15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, xx, xx, xx, xx, xx, 
+		xx, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 
+		41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+		xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, xx, 
+	};
+	
+	size_t i = 0;
+	size_t j = 0;
+	while (i < length)
+	{
+		//
+		// Accumulate 4 valid characters (ignore everything else)
+		//
+		unsigned char accumulated[4];
+		size_t accumulateIndex = 0;
+		while (i < length)
+		{
+			unsigned char decode = base64DecodeLookup[input[i++]];
+			if (decode != xx)
+			{
+				accumulated[accumulateIndex] = decode;
+				accumulateIndex++;
+				
+				if (accumulateIndex == 4) break;
+			}
+		}
+		
+		//
+		// Store the 6 bits from each of the 4 characters as 3 bytes
+		//
+		// (Uses improved bounds checking suggested by Alexandre Colucci)
+		//
+		if(accumulateIndex >= 2)  
+			output[j] = (accumulated[0] << 2) | (accumulated[1] >> 4);  
+		if(accumulateIndex >= 3)  
+			output[j + 1] = (accumulated[1] << 4) | (accumulated[2] >> 2);  
+		if(accumulateIndex >= 4)  
+			output[j + 2] = (accumulated[2] << 6) | accumulated[3];
+		j += accumulateIndex - 1;
+	}
+	
+	if (output)
+	{
+		*output = j;
+	}
+	return mutableData;
 }
 
 @end

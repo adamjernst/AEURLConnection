@@ -57,8 +57,9 @@ NSString *AEStringFromURLEncodedString(NSString *formEncodedString);
 NSString *AEQueryStringFromParameters(NSDictionary *parameters);
 NSDictionary *AEParametersFromQueryString(NSString *queryString);
 
-// A utility function to base-64 encode some data.
+// Utility functions to base-64 encode/decode data.
 NSString *AEBase64EncodedStringFromData(NSData *data);
+NSData *AEDataFromBase64EncodedString(NSString *base64);
 
 // See AEJSONProcessor for a parameter processing block that creates JSON.
 
