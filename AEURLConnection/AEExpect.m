@@ -20,7 +20,7 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 }
 
 + (AEURLResponseProcessor)statusCode:(NSIndexSet *)acceptableCodes {
-    return [[^(NSURLResponse *response, id data, NSError **error){
+    return [[^id(NSURLResponse *response, id data, NSError **error){
         if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
             if (error) {
                 *error = [AEExpect error:AEExpectResponseNotHTTPError
@@ -51,7 +51,7 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 // Sets an error if the Content-Type header does not match one of the included
 // acceptable content types, after removing any "charset" or other parameters.
 + (AEURLResponseProcessor)contentType:(NSSet *)acceptableTypes {
-    return [[^(NSURLResponse *response, id data, NSError **error) {
+    return [[^id(NSURLResponse *response, id data, NSError **error) {
         if (![acceptableTypes containsObject:[response MIMEType]]) {
             if (error) {
                 *error = [AEExpect error:AEExpectInvalidContentTypeError
@@ -68,7 +68,7 @@ NSString *AEExpectErrorDomain = @"AEExpectErrorDomain";
 // Handy for use after an AEJSONProcessor, if you want to ensure that
 // you're getting a dictionary vs. an array.
 + (AEURLResponseProcessor)responseClass:(Class)cl {
-    return [[^(NSURLResponse *response, id data, NSError **error) {
+    return [[^id(NSURLResponse *response, id data, NSError **error) {
         if (![data isKindOfClass:cl]) {
             if (error) {
                 *error = [AEExpect error:AEExpectInvalidResponseClassError

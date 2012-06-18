@@ -13,7 +13,7 @@ NSString *AEURLResponseProcessorsErrorDomain = @"AEURLResponseProcessorsErrorDom
 @implementation AEURLResponseProcessors
 
 + (AEURLResponseProcessor)imageResponseProcessor {
-    return [[^(NSURLResponse *response, id data, NSError **error) {
+    return [[^id(NSURLResponse *response, id data, NSError **error) {
         UIImage *image = [[[UIImage alloc] initWithData:data] autorelease];
         if (!image) {
             if (error) {
@@ -35,7 +35,7 @@ NSString *AEURLResponseProcessorsErrorDomain = @"AEURLResponseProcessorsErrorDom
         [processors addObject:[[processor copy] autorelease]];
     }
     
-    return [[^(NSURLResponse *response, id data, NSError **error) {
+    return [[^id(NSURLResponse *response, id data, NSError **error) {
         id newData = data;
         for (AEURLResponseProcessor processor in processors) {
             newData = processor(response, newData, error);
