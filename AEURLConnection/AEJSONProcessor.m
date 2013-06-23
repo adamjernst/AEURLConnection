@@ -15,20 +15,21 @@ static AEURLResponseProcessor JSONProcessor = nil;
 + (AEURLResponseProcessor)JSONResponseProcessor {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        JSONProcessor = [[self JSONResponseProcessorWithOptions:JKParseOptionNone] retain];
+        JSONProcessor = [[self JSONResponseProcessorWithOptions:0] retain];
     });
     return JSONProcessor;
 }
 
-+ (AEURLResponseProcessor)JSONResponseProcessorWithOptions:(JKParseOptionFlags)options {
++ (AEURLResponseProcessor)JSONResponseProcessorWithOptions:(NSJSONReadingOptions)options {
     return [[(id)^(NSURLResponse *response, NSData *data, NSError **error){
-        return [data objectFromJSONDataWithParseOptions:options error:error];
+        return [NSJSONSerialization JSONObjectWithData:data options:options error:error];
     } copy] autorelease];
 }
 
 + (AEURLParameterProcessor)JSONParameterProcessor {
     return [[^(NSDictionary *parameters, NSMutableURLRequest *targetRequest){
-        [targetRequest setHTTPBody:[parameters JSONData]];
+        NSError *error = nil;
+        [targetRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:0 error:&error]];
         [targetRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     } copy] autorelease];
 }

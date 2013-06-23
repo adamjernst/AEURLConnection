@@ -25,7 +25,6 @@
 		C4C186AF1445FF9C003DBCC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C4C186AD1445FF9C003DBCC0 /* InfoPlist.strings */; };
 		C4C186B21445FF9C003DBCC0 /* AEURLExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186B11445FF9C003DBCC0 /* AEURLExampleTests.m */; };
 		C4C186C31445FFD7003DBCC0 /* AEURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */; };
-		C4C186CB144615CF003DBCC0 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C186CA144615CF003DBCC0 /* JSONKit.m */; };
 		C4E6E3551447CCCB000AEDA7 /* AEExpect.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E6E3541447CCCB000AEDA7 /* AEExpect.m */; };
 /* End PBXBuildFile section */
 
@@ -69,8 +68,6 @@
 		C4C186B11445FF9C003DBCC0 /* AEURLExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AEURLExampleTests.m; sourceTree = "<group>"; };
 		C4C186C11445FFD7003DBCC0 /* AEURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEURLConnection.h; sourceTree = "<group>"; };
 		C4C186C21445FFD7003DBCC0 /* AEURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEURLConnection.m; sourceTree = "<group>"; };
-		C4C186C9144615CF003DBCC0 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		C4C186CA144615CF003DBCC0 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		C4E6E3531447CCCB000AEDA7 /* AEExpect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEExpect.h; sourceTree = "<group>"; };
 		C4E6E3541447CCCB000AEDA7 /* AEExpect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEExpect.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,8 +131,6 @@
 		C4C1868C1445FF9C003DBCC0 /* AEURLExample */ = {
 			isa = PBXGroup;
 			children = (
-				C4C186C9144615CF003DBCC0 /* JSONKit.h */,
-				C4C186CA144615CF003DBCC0 /* JSONKit.m */,
 				C4C186951445FF9C003DBCC0 /* AEAppDelegate.h */,
 				C4C186961445FF9C003DBCC0 /* AEAppDelegate.m */,
 				C4C186981445FF9C003DBCC0 /* AEViewController.h */,
@@ -307,7 +302,6 @@
 				C4C186971445FF9C003DBCC0 /* AEAppDelegate.m in Sources */,
 				C4C1869A1445FF9C003DBCC0 /* AEViewController.m in Sources */,
 				C4C186C31445FFD7003DBCC0 /* AEURLConnection.m in Sources */,
-				C4C186CB144615CF003DBCC0 /* JSONKit.m in Sources */,
 				C448BB061447332A00228625 /* AEJSONProcessor.m in Sources */,
 				C448BB1A14473D0A00228625 /* AEURLRequestFactory.m in Sources */,
 				C4E6E3551447CCCB000AEDA7 /* AEExpect.m in Sources */,
